@@ -1,5 +1,7 @@
 # aws_nat_gateway_converter
 
+I want to thank Coin Graham for inspiring me to do this.  It was really all his idea.  I just thought I would give it a try.
+
 BETA:
 
 This simple python application will make use of the new AWS Gateway service.  It will remove old NAT instances, cleanup the route tables, and deploy a new NAT gateway.  
