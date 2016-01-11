@@ -1,17 +1,17 @@
 # aws_nat_gateway_converter
 
-I want to thank Coin Graham for inspiring me to do this.  It was really all his idea.  I just thought I would give it a try.
+I want to thank [Coin Graham](https://www.linkedin.com/in/coingraham) for inspiring me to do this.  It was really all his idea.  I just thought I would give it a try.
 
 BETA:
 
-This simple python application will make use of the new AWS Gateway service.  It will remove old NAT instances, cleanup the route tables, and deploy a new NAT gateway.  
+This simple python application will make use of the [New AWS Managed NAT service](https://aws.amazon.com/blogs/aws/new-managed-nat-network-address-translation-gateway-for-aws/).  It will remove old NAT instances, cleanup the route tables, deploy a new NAT gateway, and update the route tables with the new Managed Service.  Optionally, there is the ability to allocate and EIP to the service.  
 
 Requirements:
-python 2.7
-AWS CLI
-AWS boto3 library
-IAM keys with rights to VPC/EC2 - pretty much full rights
-run 'aws config' and put in key/secret
+* python 2.7
+* AWS CLI
+* AWS boto3 library
+* IAM keys with rights to VPC/EC2 - pretty much full rights
+* run 'aws config' and put in key/secret
 
 The MIT License (MIT)
 Copyright (c) 2016 Ian B. Willoughby
