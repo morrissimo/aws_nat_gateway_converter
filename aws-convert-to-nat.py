@@ -215,18 +215,3 @@ for instance in current_nat_instances:
 
 print 'Done!'
 exit()
-
-'''
-update route tables in private subnets
-
-response = client.create_route(
-    DryRun=True|False,
-    RouteTableId='string',
-    DestinationCidrBlock='string',
-    GatewayId='string',
-    InstanceId='string',
-    NetworkInterfaceId='string',
-    VpcPeeringConnectionId='string',
-    NatGatewayId='string'
-)
-'''
