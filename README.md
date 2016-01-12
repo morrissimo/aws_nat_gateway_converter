@@ -4,10 +4,10 @@ I want to thank [Coin Graham](https://www.linkedin.com/in/coingraham) for inspir
 
 BETA:
 
-This simple python application will make use of the [New AWS Managed NAT service](https://aws.amazon.com/blogs/aws/new-managed-nat-network-address-translation-gateway-for-aws/).  It will remove old NAT instances, cleanup the route tables, deploy a new NAT gateway, and update the route tables with the new Managed Service.  Optionally, there is the ability to allocate and EIP to the service.  
+This simple Python application will make use of the [New AWS Managed NAT service](https://aws.amazon.com/blogs/aws/new-managed-nat-network-address-translation-gateway-for-aws/).  It will remove old NAT instances, clean up the route tables, deploy a new NAT gateway, and update the route tables with the new Managed Service.  Optionally, there is the ability to allocate an EIP to the service.  
 
 Requirements:
-* python 2.7
+* Python 2.7
 * AWS CLI
 * AWS boto3 library
 * IAM keys with rights to VPC/EC2 - pretty much full rights
