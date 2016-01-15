@@ -213,6 +213,16 @@ class NatConverter(object):
         )
         print 'done.'
 
+    def stop_legacy_nat_instances(self):
+        print 'Stopping old NAT instances..'
+        for instance in self.convertable_nat_instances():
+            instance_id = instance['InstanceId']
+            print ' stopping instance {}'.format(instance_id)
+            response = client.stop_instances(
+                InstanceIds=[instance_id]
+            )
+        print ' done.'
+
     def terminate_legacy_nat_instances(self):
         print 'Terminating old NAT instances..'
         for instance in self.convertable_nat_instances():
@@ -265,6 +275,19 @@ if __name__ == '__main__':
 
     converter.wait_on_nat_gateways_ready(nat_gateway_id)
     converter.update_routing()
-    converter.terminate_legacy_nat_instances()
+
+    print 'What would you like to do with the legacy NAT instances?'
+    print '1. Stop them.'
+    print '2. Terminate them.'
+    print '3. Do nothing to them.'
+    _input = int(raw_input('Enter your selection (1, 2 or 3): '))
+    if _input == 1:
+        converter.stop_legacy_nat_instances()
+    elif _input == 2:
+        converter.terminate_legacy_nat_instances()
+    elif _input == 3:
+        print 'Doing nothing to legacy NAT instances ({})'.format(
+            ', '.join([instance['InstanceId'] for instance in converter.convertable_nat_instances()])
+        )
 
     print 'Conversion complete!'
