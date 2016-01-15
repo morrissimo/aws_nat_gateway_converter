@@ -35,8 +35,10 @@ def cached_property(fn):
 class NoVpcsException(Exception):
     pass
 
+
 class VpcHasNatGatewayException(Exception):
     pass
+
 
 class NatConverter(object):
 
@@ -61,7 +63,7 @@ class NatConverter(object):
         index = 1
         for v in self.vpcs:
             name = v['VpcId'] + ' - ' + v['CidrBlock']
-            if v['IsDefault'] == True:
+            if v['IsDefault']:
                 name = name + ' (Default VPC)'
             for t in v.get('Tags', []):
                 if t['Key'] == 'Name':
@@ -112,7 +114,6 @@ class NatConverter(object):
                     is_public = True
             for assoc in route_table['Associations']:
                 if 'SubnetId' in assoc and is_public:
-                    #yield assoc['SubnetId']
                     yield assoc
 
     def private_subnets(self):
@@ -143,7 +144,7 @@ class NatConverter(object):
         Apparently NAT instances with src/dest check enabled can't be converted
         """
         response = self.client.describe_instance_attribute(InstanceId=nat_instance['InstanceId'], Attribute='sourceDestCheck')
-        return response['SourceDestCheck']['Value'] != True
+        return response['SourceDestCheck']['Value']
 
     def convertable_nat_instances(self):
         """
@@ -203,7 +204,7 @@ class NatConverter(object):
                 RouteTableId=instance['RouteTableId'],
                 DestinationCidrBlock=instance['DestinationCidrBlock']
             )
-        print 'done.'
+        print 'done. (response={})'.format(response)
         instance = self.get_nat_gateway_details(self.nat_gateway_id)
         print 'Adding route table entry for new NAT instance... ',
         response = self.client.create_route(
@@ -211,7 +212,7 @@ class NatConverter(object):
             DestinationCidrBlock=instance['DestinationCidrBlock'],
             NatGatewayId=self.nat_gateway_id,
         )
-        print 'done.'
+        print 'done. (response={})'.format(response)
 
     def stop_legacy_nat_instances(self):
         print 'Stopping old NAT instances..'
@@ -221,7 +222,7 @@ class NatConverter(object):
             response = self.client.stop_instances(
                 InstanceIds=[instance_id]
             )
-        print ' done.'
+        print ' ..done. (response={})'.format(response)
 
     def terminate_legacy_nat_instances(self):
         print 'Terminating old NAT instances..'
@@ -231,14 +232,13 @@ class NatConverter(object):
             response = self.client.terminate_instances(
                 InstanceIds=[instance_id]
             )
-        print ' done.'
+        print ' ..done. (response={})'.format(response)
 
 
 if __name__ == '__main__':
-    from pprint import pprint
     converter = NatConverter()
     converter.select_vpc()
- 
+
     print
     print 'Convertable legacy NAT instances found on this VPC:'
     for instance in converter.convertable_nat_instances():
