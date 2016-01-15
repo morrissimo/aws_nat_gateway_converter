@@ -206,10 +206,10 @@ class NatConverter(object):
         print 'done.'
         instance = self.get_nat_gateway_details(self.nat_gateway_id)
         print 'Adding route table entry for new NAT instance... ',
-        response = client.create_route(
+        response = self.client.create_route(
             RouteTableId=instance['RouteTableId'],
             DestinationCidrBlock=instance['DestinationCidrBlock'],
-            NatGatewayId=NatGatewayId
+            NatGatewayId=self.nat_gateway_id,
         )
         print 'done.'
 
@@ -218,7 +218,7 @@ class NatConverter(object):
         for instance in self.convertable_nat_instances():
             instance_id = instance['InstanceId']
             print ' stopping instance {}'.format(instance_id)
-            response = client.stop_instances(
+            response = self.client.stop_instances(
                 InstanceIds=[instance_id]
             )
         print ' done.'
@@ -228,7 +228,7 @@ class NatConverter(object):
         for instance in self.convertable_nat_instances():
             instance_id = instance['InstanceId']
             print ' terminating instance {}'.format(instance_id)
-            response = client.terminate_instances(
+            response = self.client.terminate_instances(
                 InstanceIds=[instance_id]
             )
         print ' done.'
