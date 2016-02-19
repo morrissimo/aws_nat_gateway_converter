@@ -144,7 +144,7 @@ class NatConverter(object):
         Apparently NAT instances with src/dest check enabled can't be converted
         """
         response = self.client.describe_instance_attribute(InstanceId=nat_instance['InstanceId'], Attribute='sourceDestCheck')
-        return response['SourceDestCheck']['Value']
+        return response['SourceDestCheck']['Value'] == False
 
     def convertable_nat_instances(self):
         """
