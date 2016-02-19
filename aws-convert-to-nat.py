@@ -237,7 +237,12 @@ class NatConverter(object):
 
 if __name__ == '__main__':
     converter = NatConverter()
-    converter.select_vpc()
+    try:
+        converter.select_vpc()
+    except VpcHasNatGatewayException:
+        print
+        print 'This VPC already has a NAT Gateway! Aborting..'
+        exit()
 
     print
     print 'Convertable legacy NAT instances found on this VPC:'
